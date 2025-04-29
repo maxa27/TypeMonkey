@@ -8,8 +8,10 @@ import { app, BrowserWindow } from 'electron';
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 700,
+    resizable: false,
+    frame: false,
     // webPreferences: {
     //   preload: path.join(__dirname, 'preload.js'),
     // },
