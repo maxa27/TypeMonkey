@@ -1,5 +1,4 @@
-DROP TABLE IF EXISTS users CASCADE;
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
   email VARCHAR(255) UNIQUE NOT NULL,
@@ -8,16 +7,16 @@ CREATE TABLE IF NOT EXISTS users (
   updated_at TIMESTAMP DEFAULT NOW()
 );
 
-DROP TABLE IF EXISTS leaderboard CASCADE;
-CREATE TABLE IF NOT EXISTS leaderboard (
+CREATE TABLE leaderboard (
   id SERIAL PRIMARY KEY,
-  user_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL REFERENCES users(id),
   wpm FLOAT NOT NULL,
   accuracy INTEGER NOT NULL,
+  language VARCHAR(50),
   time INTEGER NOT NULL,
-  created_at TIMESTAMP DEFAULT NOW(),
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+  created_at TIMESTAMP DEFAULT NOW()
 );
+
 
 INSERT INTO users (name, email, password_hash)
 VALUES

@@ -3,22 +3,20 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-"scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview",
-  
-  "start:build": "docker build -t typemonkey-db ./db",
-  "start:db": "docker ps -a --filter name=typemonkey-db --format '{{.Names}}' | grep typemonkey-db && docker start typemonkey-db || docker run -d -p 5432:5432 --name typemonkey-db typemonkey-db",
-  "stop:db": "docker stop typemonkey-db || true && docker rm typemonkey-db || true",
-  
-  "start:electron": "wait-on http://localhost:5173 && electron src/electron/main.js",
-  
-  "start:project": "bash start-project.sh",
-  "start": "npm run start:project"
-}
-,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start:build": "docker build -t typemonkey-db ./db",
+    "start:db": "docker ps -a --filter name=typemonkey-db --format '{{.Names}}' | grep typemonkey-db && docker start typemonkey-db || docker run -d -p 5432:5432 --name typemonkey-db typemonkey-db",
+    "stop:db": "docker stop typemonkey-db || true && docker rm typemonkey-db || true",
+    "start:electron": "wait-on http://localhost:5173 && electron src/electron/main.js",
+    "start:project": "bash start-project.sh",
+    "start": "npm run start:project"
+  },
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "pg": "^8.15.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.5.2",
