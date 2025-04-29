@@ -1,10 +1,10 @@
 import { app, BrowserWindow } from 'electron';
-// import path from 'path';
-// import { fileURLToPath } from 'url';
-// import { dirname } from 'path';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -12,9 +12,10 @@ function createWindow() {
     height: 700,
     resizable: false,
     frame: false,
-    // webPreferences: {
-    //   preload: path.join(__dirname, 'preload.js'),
-    // },
+    icon: path.join(__dirname, '..', '..', 'public', 'monkey.png'),
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+    },
   });
 
   win.loadURL('http://localhost:5173');

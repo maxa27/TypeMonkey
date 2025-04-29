@@ -1,0 +1,23 @@
+@font-face {
+  font-family: "Comfortaa-Regular";
+  src: url(./assets/font/Comfortaa-Regular.ttf);
+}
+
+:root {
+  --main: #FCCFA1;
+  --backgroud: #1B1312;
+  --background-darker: #160D0C;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #1B1312;
+  overflow: hidden;
+  margin: 0;
+}
+
+* {
+  font-family: 'Comfortaa-Regular';
+}
