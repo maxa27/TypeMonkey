@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route path="main" element={<Main />} />
-        <Route index element={<Autorization />} />
+        <Route index element={<Profile />} />
         <Route path="profile" element={<Profile />} />
         <Route path="records" element={<Records />} />
       </Route>
