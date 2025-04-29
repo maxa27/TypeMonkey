@@ -1,0 +1,75 @@
+import React, { useRef } from 'react'
+import { useAuth } from '../../context/AuthContext'
+import './Authorization.scss'
+
+const Authorization = () => {
+	const { isRegister, toggleMode } = useAuth()
+
+	const emailRef = useRef('')
+	const passwordRef = useRef('')
+	const confirmRef = useRef('')
+
+	const handleSubmit = e => {
+		e.preventDefault()
+
+		const email = emailRef.current.value.trim()
+		const password = passwordRef.current.value
+		const confirmPassword = confirmRef.current?.value
+
+		if (isRegister) {
+			if (password !== confirmPassword) {
+				alert("Passwords don't match")
+				return
+			}
+			console.log('Register with', email)
+		} else {
+			console.log('Login with', email)
+		}
+
+		// Очистка
+		emailRef.current.value = ''
+		passwordRef.current.value = ''
+		if (confirmRef.current) confirmRef.current.value = ''
+	}
+
+	return (
+		<div className="authorization-wrapper">
+			<div className="authorization-inner">
+				<h2 className="login-title">{isRegister ? 'register' : 'login'}</h2>
+				<div className="login-container">
+					<form onSubmit={handleSubmit} className="login-form">
+						<input type="email" placeholder="email" ref={emailRef} required />
+						<input
+							type="password"
+							placeholder="password"
+							ref={passwordRef}
+							required
+						/>
+						{isRegister && (
+							<input
+								type="password"
+								placeholder="confirm password"
+								ref={confirmRef}
+								required
+							/>
+						)}
+						<button type="submit">{isRegister ? 'Sign up' : 'Sign in'}</button>
+					</form>
+					<div className="register-link">
+						{isRegister ? (
+							<>
+								already have an account? <span onClick={toggleMode}>login</span>
+							</>
+						) : (
+							<>
+								no account? <span onClick={toggleMode}>register</span>
+							</>
+						)}
+					</div>
+				</div>
+			</div>
+		</div>
+	)
+}
+
+export default Authorization

@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  font-family: 'Comfortaa', sans-serif;
+  background-color: #0f0b09;
+}
+
+.authorization-wrapper {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.authorization-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.login-title {
+  font-size: 22px;
+  font-weight: 400;
+  color: #dcd4cc;
+  transition: all 0.3s ease;
+}
+
+.login-form button {
+  transition: all 0.3s ease;
+}
+
+.register-link {
+  transition: all 0.3s ease;
+}
+
+.login-container {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 30px;
+  border-radius: 25px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 360px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.login-form input {
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  font-family: 'Comfortaa';
+  padding: 15px;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  &::placeholder {
+    color: #888;
+  }
+}
+
+.login-form button {
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  font-family: 'Comfortaa';
+  border-radius: 20px;
+  padding: 15px;
+  color: #fff;
+  font-weight: 500;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.6s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+}
+
+.register-link {
+  margin-top: 15px;
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+
+  span {
+    color: #aaa;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      color: #fff;
+      transition: color 0.6s ease;
+    }
+  }
+}
