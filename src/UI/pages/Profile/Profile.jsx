@@ -8,7 +8,7 @@ const InfoBlock = ({ label, value }) => (
       {label === "name" ? (
         <div className="value-with-button">
           <p className="el-second">{value}</p>
-          <button className="change-btn">change name</button>
+          {/* <button className="change-btn">change name</button> */}
         </div>
       ) : (
         <p className="el-second">{value}</p>
