@@ -5,3 +5,6 @@ contextBridge.exposeInMainWorld('WindowAPI', {
   minimizeWin: () => ipcRenderer.send('window-minimize'),
 });
 
+contextBridge.exposeInMainWorld('api', {
+  call: (method, args = []) => ipcRenderer.invoke('api-call', { method, args }),
+});
