@@ -1,0 +1,113 @@
+.profile {
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+  .profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 65px;
+  
+      h3 {
+        font-size: 20px;
+        color: #ffffff9d;
+        margin-bottom: 20px;
+        font-weight: 400;
+      }
+  
+      .profile-block {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        width: 400px;
+        padding: 32px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+  
+        .profile-pic-wrapper {
+          position: relative;
+          width: 100px;
+          height: 100px;
+          margin-bottom: 24px;
+          cursor: pointer;
+  
+          .profile-pic {
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+          }
+  
+          .pic-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.644);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: 0.3s ease;
+          }
+  
+          &:hover .pic-overlay {
+            opacity: 1;
+          }
+        }
+  
+        .description {
+          display: flex;
+          flex-direction: column;
+          width: 100%;
+  
+          .el-block {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            padding: 0 8px;
+          
+            .el-first {
+              color: #ffffff34;
+              min-width: 60px;
+            }
+          
+            .el-second {
+              color: #ffffff80;
+            }
+          
+            .value-with-button {
+              display: flex;
+              align-items: center;
+              gap: 4px;
+            }
+          
+            .change-btn {
+              background: none;
+              font-weight: 100;
+              border: none;
+              color: #ffffff4d;
+              font-size: 12px;
+              cursor: pointer;
+              transition: 0.2s;
+          
+              &:hover {
+                color: #fff;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  

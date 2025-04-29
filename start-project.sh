@@ -2,14 +2,12 @@
 
 set -e
 
-# Функция остановки базы при выходе из проекта
 function cleanup {
   echo "🛑 Stopping database container..."
   docker stop typemonkey-db > /dev/null 2>&1 || true
   exit 0
 }
 
-# Ловим сигнал Ctrl+C
 trap cleanup SIGINT
 
 echo "🚀 Starting TypeMonkey project..."

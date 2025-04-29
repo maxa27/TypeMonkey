@@ -1,16 +1,16 @@
-import { Outlet } from 'react-router-dom';
-import Header from '../components/Header';
+import { Outlet } from "react-router-dom";
+import Header from "./Header";
+import "./styles.scss";
 
 const Layout = () => {
-    return (
-        <div className="layout">
-            <Header />
-            <main style={{ padding: '1rem 0' }}>
-                <Outlet />
-            </main> 
-        </div>
-
-    );
+  return (
+    <div className="layout">
+      <Header />
+      <main>
+        <Outlet />
+      </main>
+    </div>
+  );
 };
 
 export default Layout;
