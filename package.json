@@ -3,13 +3,21 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "lint": "eslint .",
-    "preview": "vite preview",
-    "start": "concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron src/electron/main.js\""
-  },
+"scripts": {
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview",
+  
+  "start:build": "docker build -t typemonkey-db ./db",
+  "start:db": "docker ps -a --filter name=typemonkey-db --format '{{.Names}}' | grep typemonkey-db && docker start typemonkey-db || docker run -d -p 5432:5432 --name typemonkey-db typemonkey-db",
+  "stop:db": "docker stop typemonkey-db || true && docker rm typemonkey-db || true",
+  
+  "start:electron": "wait-on http://localhost:5173 && electron src/electron/main.js",
+  
+  "start:project": "bash start-project.sh",
+  "start": "npm run start:project"
+}
+,
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -27,6 +35,7 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
+    "npm-run-all": "^4.1.5",
     "vite": "^6.3.1",
     "wait-on": "^8.0.3"
   }
