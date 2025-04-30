@@ -1,0 +1,40 @@
+.navigation {
+  position: absolute;
+  display: flex;
+  gap: 15px;
+  width: max-content;
+  right: 8%;
+  top: 2%;
+
+  .icon {
+    svg {
+      path:last-child {
+        fill: #ffffff59;
+      }
+    }
+    cursor: pointer;
+  }
+
+  .active {
+    svg {
+      path:last-child {
+        fill: #fff;
+      }
+    }
+  }
+
+  .leaderboard {
+    &.active {
+      svg {
+        path {
+          fill: #fff;
+        }
+      }
+    }
+    svg {
+      path {
+        fill: #ffffff59;
+      }
+    }
+  }
+}

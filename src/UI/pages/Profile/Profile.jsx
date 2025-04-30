@@ -18,7 +18,7 @@ const InfoBlock = ({ label, value }) => (
 );
 
 const Profile = () => {
-    const { user, logout } = useUser();
+  const { user, logout } = useUser();
 
   return (
     <div className="profile">
@@ -42,10 +42,10 @@ const Profile = () => {
             </div>
           </div>
           <div className="description">
-              <InfoBlock label="name" value={user?.username || "неизвестно"} />
-              <InfoBlock label="email" value={user?.email || "не указано"} />
+            <InfoBlock label="name" value={user?.username || "неизвестно"} />
+            <InfoBlock label="email" value={user?.email || "не указано"} />
             <InfoBlock label="rank" value="#1" />
-              <button onClick={logout} className="logout-btn">Выйти</button>
+            {/* <button onClick={logout} className="logout-btn">Выйти</button> */}
           </div>
         </div>
       </div>
