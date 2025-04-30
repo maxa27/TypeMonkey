@@ -1,6 +1,7 @@
 import React from "react";
 import './Profile.scss';
 import ProfilePic from "../../assets/ProfilePic.jpg";
+import { useUser } from "../../context/useUser.js";
 
 const InfoBlock = ({ label, value }) => (
     <div className="el-block">
@@ -15,9 +16,11 @@ const InfoBlock = ({ label, value }) => (
       )}
     </div>
   );
-  
+
 
 const Profile = () => {
+    const { user, logout } = useUser();
+
   return (
     <div className="profile">
       <div className="profile-container">
@@ -40,9 +43,10 @@ const Profile = () => {
             </div>
           </div>
           <div className="description">
-            <InfoBlock label="name" value="qu1xx" />
-            <InfoBlock label="email" value="lexicplexik000@gmail.com" />
+              <InfoBlock label="name" value={user?.username || "неизвестно"} />
+              <InfoBlock label="email" value={user?.email || "не указано"} />
             <InfoBlock label="rank" value="#1" />
+              <button onClick={logout} className="logout-btn">Выйти</button>
           </div>
         </div>
       </div>
