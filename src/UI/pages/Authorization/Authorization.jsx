@@ -1,7 +1,9 @@
 import React, { useRef, useState } from "react";
 import "./Authorization.scss";
+import { useUser } from "../../context/useUser.js";
 
 const Authorization = () => {
+  const { login } = useUser();
   const [isRegister, setIsRegister] = useState(false);
 
   const emailRef = useRef("");
@@ -24,9 +26,9 @@ const Authorization = () => {
         alert("Passwords don't match");
         return;
       }
-      console.log("Register with", email);
+      login({ username: email, email });
     } else {
-      console.log("Login with", email);
+      login({ username: email, email });
     }
 
     // Очистка
