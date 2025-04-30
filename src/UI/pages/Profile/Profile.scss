@@ -18,10 +18,13 @@
         margin-bottom: 20px;
         font-weight: 400;
       }
+
+      .gradient-border {
+        border-radius: 16px;
+      }
   
       .profile-block {
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: var(--background-element);
         width: 400px;
         padding: 32px;
         border-radius: 16px;

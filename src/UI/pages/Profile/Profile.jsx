@@ -1,22 +1,21 @@
 import React from "react";
-import './Profile.scss';
+import "./Profile.scss";
 import ProfilePic from "../../assets/ProfilePic.jpg";
 import { useUser } from "../../context/useUser.js";
 
 const InfoBlock = ({ label, value }) => (
-    <div className="el-block">
-      <p className="el-first">{label}</p>
-      {label === "name" ? (
-        <div className="value-with-button">
-          <p className="el-second">{value}</p>
-          {/* <button className="change-btn">change name</button> */}
-        </div>
-      ) : (
+  <div className="el-block">
+    <p className="el-first">{label}</p>
+    {label === "name" ? (
+      <div className="value-with-button">
         <p className="el-second">{value}</p>
-      )}
-    </div>
-  );
-
+        <button className="change-btn">change name</button>
+      </div>
+    ) : (
+      <p className="el-second">{value}</p>
+    )}
+  </div>
+);
 
 const Profile = () => {
     const { user, logout } = useUser();

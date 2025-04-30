@@ -6,6 +6,7 @@
 :root {
   --main: #FCCFA1;
   --backgroud: #1B1312;
+  --background-element: #221a19;
   --background-darker: #160D0C;
 }
 
@@ -20,4 +21,14 @@ html, body, #root {
 
 * {
   font-family: 'Comfortaa-Regular';
+}
+
+a {
+  all: unset;
+  cursor: pointer;
+}
+
+.gradient-border {
+  padding: 1px;
+  background: linear-gradient(to bottom, #FFFFFF33, #ffffff1a);
 }
