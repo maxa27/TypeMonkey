@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, Tray, Menu } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -50,7 +50,6 @@ ipcMain.on("window-minimize", () => {
   if (win) win.minimize();
 });
 
-// 💥 Универсальный вызов:
 ipcMain.handle('api-call', async (_event, { method, args }) => {
   try {
     if (!db[method] || typeof db[method] !== 'function') {
