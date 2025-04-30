@@ -46,8 +46,8 @@ const Profile = () => {
               <InfoBlock label="name" value={user?.username || "неизвестно"} />
               <InfoBlock label="email" value={user?.email || "не указано"} />
             <InfoBlock label="rank" value="#1" />
-              <button onClick={logout} className="logout-btn">Выйти</button>
           </div>
+          <button onClick={logout} className="logout-btn">выйти из аккаунта</button>
         </div>
       </div>
     </div>

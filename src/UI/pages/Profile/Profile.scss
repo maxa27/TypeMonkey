@@ -76,10 +76,10 @@
             align-items: center;
             font-size: 16px;
             padding: 0 8px;
+            gap: 10px;
           
             .el-first {
               color: #ffffff34;
-              min-width: 60px;
             }
           
             .el-second {
@@ -105,6 +105,19 @@
                 color: #fff;
               }
             }
+          }
+        }
+        .logout-btn {
+          display: flex;
+          align-items: flex-start;
+          background: none;
+          border: none;
+          color: #ffffff48;
+          font-size: 12px;
+          transition: 0.2s ease-in-out;
+
+          &:hover {
+            color: #fff;
           }
         }
       }
