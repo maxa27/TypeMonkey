@@ -12,7 +12,7 @@ const Authorization = () => {
 
   const toggleMode = () => {
     setIsRegister((prev) => !prev);
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,35 +41,53 @@ const Authorization = () => {
     <div className="authorization-wrapper">
       <div className="authorization-inner">
         <h2 className="login-title">{isRegister ? "register" : "login"}</h2>
-        <div className="login-container">
-          <form onSubmit={handleSubmit} className="login-form">
-            <input type="email" placeholder="email" ref={emailRef} required />
-            <input
-              type="password"
-              placeholder="password"
-              ref={passwordRef}
-              required
-            />
-            {isRegister && (
-              <input
-                type="password"
-                placeholder="confirm password"
-                ref={confirmRef}
-                required
-              />
-            )}
-            <button type="submit">{isRegister ? "Sign up" : "Sign in"}</button>
-          </form>
-          <div className="register-link">
-            {isRegister ? (
-              <>
-                already have an account? <span onClick={toggleMode}>login</span>
-              </>
-            ) : (
-              <>
-                no account? <span onClick={toggleMode}>register</span>
-              </>
-            )}
+        <div className="gradient-border">
+          <div className="login-container">
+            <form onSubmit={handleSubmit} className="login-form">
+              <div className="gradient-border-input">
+                <input
+                  type="email"
+                  placeholder="email"
+                  ref={emailRef}
+                  required
+                />
+              </div>
+              <div className="gradient-border-input">
+                <input
+                  type="password"
+                  placeholder="password"
+                  ref={passwordRef}
+                  required
+                />
+              </div>
+              {isRegister && (
+                <div className="gradient-border-input">
+                  <input
+                    type="password"
+                    placeholder="confirm password"
+                    ref={confirmRef}
+                    required
+                  />
+                </div>
+              )}
+              <div className="gradient-border-btn">
+                <button type="submit">
+                  {isRegister ? "Sign up" : "Sign in"}
+                </button>
+              </div>
+            </form>
+            <div className="register-link">
+              {isRegister ? (
+                <>
+                  already have an account?{" "}
+                  <span onClick={toggleMode}>login</span>
+                </>
+              ) : (
+                <>
+                  no account? <span onClick={toggleMode}>register</span>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>

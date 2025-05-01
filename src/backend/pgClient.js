@@ -1,10 +1,10 @@
-import { Client } from 'pg';
+import { Client } from "pg";
 
 const client = new Client({
-  user: 'typemonkey',
-  host: 'localhost',
-  database: 'typemonkeydb',
-  password: 'typemonkey123',
+  user: "typemonkey",
+  host: "localhost",
+  database: "typemonkeydb",
+  password: "typemonkey123",
   port: 5432,
 });
 
