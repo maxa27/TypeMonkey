@@ -1,0 +1,217 @@
+.leaderboard-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+
+    .leaderboard {
+        display: flex;
+        gap: 2rem;
+        justify-content: center;
+        align-items: flex-start;
+        margin-bottom: 100px;
+        margin-left: 20px;
+
+        .sorting-panel-container {
+            h3 {
+                font-weight: 400;
+                margin-bottom: 1rem;
+                text-align: center;
+                color: #FFFFFF99;
+            }
+
+            .sorting-panel {
+                width: 210px;
+                background-color: #FFFFFF08;
+                border: 1px solid #333;
+                border-radius: 1.5rem;
+                display: flex;
+                flex-direction: column;
+
+            }
+
+            .filters {
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+
+
+                border-bottom: #FFFFFF24 solid 1px;
+
+                &:last-child {
+                    border: none;
+                }
+            }
+
+            .time-filters {
+                margin-top: 10px;
+            }
+
+            .filter {
+                &:last-child {
+                    margin-bottom: 10px;
+                }
+
+                &:first-child {
+                    margin-top: 10px;
+
+                }
+
+                height: 33px;
+                width: 190px;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                background: none;
+                color: #FFFFFF99;
+                border: none;
+                border-radius: 2rem;
+                font-size: 15px;
+                cursor: pointer;
+
+
+                svg {
+                    font-size: 1.1rem;
+                }
+
+                &:hover {
+                    background-color: #FFFFFF0D;
+                }
+
+                &.active {
+                    background-color: #FCCFA1;
+                    color: #000;
+                }
+            }
+
+            .language-filters {
+                margin-bottom: 10px;
+
+                .filter {
+                    justify-content: center;
+                }
+            }
+
+
+
+        }
+
+        .leaderboard-table-container {
+            width: 600px;
+
+            h3 {
+                color: #FFFFFF99;
+                text-align: center;
+                font-weight: 400;
+                margin-bottom: 1rem;
+            }
+
+            .leaderboard-table {
+                height: 374px;
+                width: 569px;
+                background-color: #FFFFFF08;
+                border: 1px solid #333;
+                border-radius: 1.5rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+                max-height: 374px;
+
+
+                .header,
+                .row {
+                    width: 480px;
+                    display: grid;
+                    grid-template-columns: 2fr 1fr 1fr 0.5fr;
+                    align-items: center;
+                    padding-left: 20px;
+                    z-index: 2;
+                }
+
+                .header {
+                    margin: 14px 0 5px 0;
+                    height: 14px;
+                    background-color: transparent;
+                    color: #FFFFFF26;
+                    font-size: 12px;
+                }
+
+                .records {
+                    display: flex;
+                    overflow-y: auto;
+                    scrollbar-width: none;
+                    width: 100%;
+                    flex-direction: column;
+                    align-items: center;
+                    gap:10px ;
+
+                    .row {
+                        height: 52px;
+                        min-height: 52px;
+                        position: relative;
+                        margin-bottom: 5px;
+                        background-color: #FFFFFF05;
+                        border-radius: 20px;
+                        color: #ffffff85;
+                        font-size: 15px;
+                        font-weight: 300;
+                        border: #FFFFFF0D solid 1px;
+                        cursor: pointer;
+    
+                        &:hover {
+                            background-color: #FFFFFF1A;
+                        }
+    
+                        &.current-user {
+                            color: #f4c38c;
+                            font-weight: 500;
+    
+    
+                            .delete-btn {
+                                position: absolute;
+                                background: none;
+                                border: none;
+                                cursor: pointer;
+                                font-size: 1.1rem;
+                                margin-left: auto;
+                                color: #FCCFA1;
+                                transition: 0.2s;
+                                right: -6%;
+    
+                                svg {
+                                    path:last-child {
+                                        fill: #FFFFFF33;
+                                    }
+                                }
+    
+                                &:hover {
+                                    color: red;
+                                }
+                            }
+                        }
+    
+    
+                        .name {
+                            display: flex;
+                            align-items: center;
+                            gap: 0.75rem;
+    
+                            .avatar {
+                                width: 32px;
+                                height: 32px;
+                                border-radius: 50%;
+                                object-fit: cover;
+                            }
+                        }
+                    }
+                }
+
+
+            }
+        }
+    }
+}
