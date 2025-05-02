@@ -90,4 +90,16 @@ export async function addRecord(userId, wpm, accuracy, time) {
         return failure('Ошибка получения рекордов пользователя', 500);
       }
     }
+
+    // Удалить рекорд по recordId
+    export async function deleteRecord(recordId) {
+      try {
+        await client.query('DELETE FROM leader_board WHERE id = $1', [recordId]);
+        return success(null, 200);
+      } catch (err) {
+        console.error('deleteRecord error:', err);
+        return failure('Ошибка удаления', 500);
+      }
+    }
+    
     
