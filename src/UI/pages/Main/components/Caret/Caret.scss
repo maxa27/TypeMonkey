@@ -1,0 +1,11 @@
+.caret {
+  font-size: 28px;
+  color: var(--main);
+  position: absolute;
+  left: -3%;
+  transition: left 0.2s ease-out;
+
+  &.focus {
+    animation: blink 0.8s ease-in-out infinite;
+  }
+}

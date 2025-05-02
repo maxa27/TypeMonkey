@@ -5,6 +5,8 @@
   width: max-content;
   right: 8%;
   top: 2%;
+  z-index: 3;
+  user-select: none;
 
   .icon {
     svg {

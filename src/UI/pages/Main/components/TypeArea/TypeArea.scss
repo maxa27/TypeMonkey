@@ -1,0 +1,12 @@
+.words-grid {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: self-start;
+  gap: 15px;
+  max-width: 990px;
+  max-height: 120px;
+  overflow: hidden;
+  margin-bottom: 15px;
+  user-select: none;
+}
