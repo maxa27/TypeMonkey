@@ -1,25 +1,24 @@
 import React from "react";
-import './Profile.scss';
+import "./Profile.scss";
 import ProfilePic from "../../assets/ProfilePic.jpg";
 import { useUser } from "../../context/useUser.js";
 
 const InfoBlock = ({ label, value }) => (
-    <div className="el-block">
-      <p className="el-first">{label}</p>
-      {label === "name" ? (
-        <div className="value-with-button">
-          <p className="el-second">{value}</p>
-          {/* <button className="change-btn">change name</button> */}
-        </div>
-      ) : (
+  <div className="el-block">
+    <p className="el-first">{label}</p>
+    {label === "name" ? (
+      <div className="value-with-button">
         <p className="el-second">{value}</p>
-      )}
-    </div>
-  );
-
+        {/* <button className="change-btn">change name</button> */}
+      </div>
+    ) : (
+      <p className="el-second">{value}</p>
+    )}
+  </div>
+);
 
 const Profile = () => {
-    const { user, logout } = useUser();
+  const { user, logout } = useUser();
 
   return (
     <div className="profile">
@@ -43,8 +42,8 @@ const Profile = () => {
             </div>
           </div>
           <div className="description">
-              <InfoBlock label="name" value={user?.username || "неизвестно"} />
-              <InfoBlock label="email" value={user?.email || "не указано"} />
+            <InfoBlock label="name" value={user?.username || "неизвестно"} />
+            <InfoBlock label="email" value={user?.email || "не указано"} />
             <InfoBlock label="rank" value="#1" />
           </div>
           <button onClick={logout} className="logout-btn">выйти из аккаунта</button>
