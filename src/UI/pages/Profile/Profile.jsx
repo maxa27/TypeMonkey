@@ -1,7 +1,7 @@
 import React from "react";
 import "./Profile.scss";
 import ProfilePic from "../../assets/ProfilePic.jpg";
-import { useUser } from "../../context/useUser.js";
+import { useUser } from "../../context/UserContext/UserProvider.jsx";
 
 const InfoBlock = ({ label, value }) => (
   <div className="el-block">

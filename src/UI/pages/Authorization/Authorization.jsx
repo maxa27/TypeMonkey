@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import "./Authorization.scss";
-import { useUser } from "../../context/useUser.js";
+import { useUser } from "../../context/UserContext/UserProvider.jsx";
 
 const Authorization = () => {
   const { login } = useUser();
