@@ -1,31 +1,192 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./Leaderboard.scss";
 import { FaClock, FaGlobe } from "react-icons/fa";
 import Delete from "../../assets/icons/Delete";
+import PopupContext from "../../context/PopupContext/PopupContext";
+import LeaderboardPopup from "../../popups/LeaderboardPopup/LeaderboardPopup";
 
 const records = [
-    { id: 1, name: "qu1xx", wpm: 304.76, accuracy: 98.96, time: 15, lang: "en", avatar: "/avatars/1.png" },
-    { id: 2, name: "Trvlxx", wpm: 254.3, accuracy: 93.2, time: 30, lang: "ru", avatar: "/avatars/2.png" },
-    { id: 3, name: "reden", wpm: 242.52, accuracy: 97.56, time: 60, lang: "en", avatar: "/avatars/3.png" },
-    { id: 4, name: "Fragifty", wpm: 222.46, accuracy: 94.56, time: 30, lang: "ru", avatar: "/avatars/4.png" },
-    { id: 5, name: "wleha", wpm: 150.23, accuracy: 96.86, time: 15, lang: "en", avatar: "/avatars/5.png" },
-    { id: 6, name: "Nova", wpm: 198.12, accuracy: 92.15, time: 15, lang: "ru", avatar: "/avatars/6.png" },
-    { id: 7, name: "Ghost", wpm: 175.5, accuracy: 91.0, time: 60, lang: "en", avatar: "/avatars/7.png" },
-    { id: 8, name: "Lunar", wpm: 189.3, accuracy: 94.7, time: 60, lang: "ru", avatar: "/avatars/8.png" },
-    { id: 9, name: "CyberZen", wpm: 210.1, accuracy: 95.5, time: 30, lang: "en", avatar: "/avatars/9.png" },
-    { id: 10, name: "AlphaX", wpm: 225.8, accuracy: 90.3, time: 15, lang: "en", avatar: "/avatars/10.png" },
-    { id: 11, name: "Bolt", wpm: 241.6, accuracy: 98.2, time: 60, lang: "ru", avatar: "/avatars/11.png" },
-    { id: 12, name: "Hexa", wpm: 203.4, accuracy: 93.8, time: 30, lang: "en", avatar: "/avatars/12.png" },
-    { id: 13, name: "Skyline", wpm: 220.7, accuracy: 95.1, time: 15, lang: "ru", avatar: "/avatars/13.png" },
-    { id: 14, name: "Orbit", wpm: 180.9, accuracy: 90.9, time: 30, lang: "en", avatar: "/avatars/14.png" },
-    { id: 15, name: "Phantom", wpm: 194.3, accuracy: 92.6, time: 60, lang: "ru", avatar: "/avatars/15.png" },
-    { id: 16, name: "Neo", wpm: 215.7, accuracy: 97.3, time: 15, lang: "en", avatar: "/avatars/16.png" },
-    { id: 17, name: "Raven", wpm: 208.5, accuracy: 91.9, time: 60, lang: "ru", avatar: "/avatars/17.png" },
-    { id: 18, name: "Pixel", wpm: 232.8, accuracy: 94.8, time: 30, lang: "en", avatar: "/avatars/18.png" },
-    { id: 19, name: "Draco", wpm: 246.2, accuracy: 96.4, time: 60, lang: "en", avatar: "/avatars/19.png" },
-    { id: 20, name: "Blaze", wpm: 259.1, accuracy: 97.9, time: 15, lang: "ru", avatar: "/avatars/20.png" },
-  ];
-  
+  {
+    id: 1,
+    name: "qu1xx",
+    wpm: 304.76,
+    accuracy: 98.96,
+    time: 15,
+    lang: "en",
+    avatar: "/avatars/1.png",
+  },
+  {
+    id: 2,
+    name: "Trvlxx",
+    wpm: 254.3,
+    accuracy: 93.2,
+    time: 30,
+    lang: "ru",
+    avatar: "/avatars/2.png",
+  },
+  {
+    id: 3,
+    name: "reden",
+    wpm: 242.52,
+    accuracy: 97.56,
+    time: 60,
+    lang: "en",
+    avatar: "/avatars/3.png",
+  },
+  {
+    id: 4,
+    name: "Fragifty",
+    wpm: 222.46,
+    accuracy: 94.56,
+    time: 30,
+    lang: "ru",
+    avatar: "/avatars/4.png",
+  },
+  {
+    id: 5,
+    name: "wleha",
+    wpm: 150.23,
+    accuracy: 96.86,
+    time: 15,
+    lang: "en",
+    avatar: "/avatars/5.png",
+  },
+  {
+    id: 6,
+    name: "Nova",
+    wpm: 198.12,
+    accuracy: 92.15,
+    time: 15,
+    lang: "ru",
+    avatar: "/avatars/6.png",
+  },
+  {
+    id: 7,
+    name: "Ghost",
+    wpm: 175.5,
+    accuracy: 91.0,
+    time: 60,
+    lang: "en",
+    avatar: "/avatars/7.png",
+  },
+  {
+    id: 8,
+    name: "Lunar",
+    wpm: 189.3,
+    accuracy: 94.7,
+    time: 60,
+    lang: "ru",
+    avatar: "/avatars/8.png",
+  },
+  {
+    id: 9,
+    name: "CyberZen",
+    wpm: 210.1,
+    accuracy: 95.5,
+    time: 30,
+    lang: "en",
+    avatar: "/avatars/9.png",
+  },
+  {
+    id: 10,
+    name: "AlphaX",
+    wpm: 225.8,
+    accuracy: 90.3,
+    time: 15,
+    lang: "en",
+    avatar: "/avatars/10.png",
+  },
+  {
+    id: 11,
+    name: "Bolt",
+    wpm: 241.6,
+    accuracy: 98.2,
+    time: 60,
+    lang: "ru",
+    avatar: "/avatars/11.png",
+  },
+  {
+    id: 12,
+    name: "Hexa",
+    wpm: 203.4,
+    accuracy: 93.8,
+    time: 30,
+    lang: "en",
+    avatar: "/avatars/12.png",
+  },
+  {
+    id: 13,
+    name: "Skyline",
+    wpm: 220.7,
+    accuracy: 95.1,
+    time: 15,
+    lang: "ru",
+    avatar: "/avatars/13.png",
+  },
+  {
+    id: 14,
+    name: "Orbit",
+    wpm: 180.9,
+    accuracy: 90.9,
+    time: 30,
+    lang: "en",
+    avatar: "/avatars/14.png",
+  },
+  {
+    id: 15,
+    name: "Phantom",
+    wpm: 194.3,
+    accuracy: 92.6,
+    time: 60,
+    lang: "ru",
+    avatar: "/avatars/15.png",
+  },
+  {
+    id: 16,
+    name: "Neo",
+    wpm: 215.7,
+    accuracy: 97.3,
+    time: 15,
+    lang: "en",
+    avatar: "/avatars/16.png",
+  },
+  {
+    id: 17,
+    name: "Raven",
+    wpm: 208.5,
+    accuracy: 91.9,
+    time: 60,
+    lang: "ru",
+    avatar: "/avatars/17.png",
+  },
+  {
+    id: 18,
+    name: "Pixel",
+    wpm: 232.8,
+    accuracy: 94.8,
+    time: 30,
+    lang: "en",
+    avatar: "/avatars/18.png",
+  },
+  {
+    id: 19,
+    name: "Draco",
+    wpm: 246.2,
+    accuracy: 96.4,
+    time: 60,
+    lang: "en",
+    avatar: "/avatars/19.png",
+  },
+  {
+    id: 20,
+    name: "Blaze",
+    wpm: 259.1,
+    accuracy: 97.9,
+    time: 15,
+    lang: "ru",
+    avatar: "/avatars/20.png",
+  },
+];
 
 const SortingPanel = ({
   activeMetric,
@@ -85,13 +246,13 @@ const SortingPanel = ({
   );
 };
 
-const LeaderboardRow = ({ record, index, currentUserId, onDelete }) => {
+const LeaderboardRow = ({ record, index, currentUserId, onDelete, onClick }) => {
   const isCurrentUser = record.id === currentUserId;
 
   return (
     <div
       className={`row ${isCurrentUser ? "current-user" : ""}`}
-      key={record.id}
+      onClick={onClick}
     >
       <div className="name">
         <img src={record.avatar} alt={record.name} className="avatar" />
@@ -102,7 +263,13 @@ const LeaderboardRow = ({ record, index, currentUserId, onDelete }) => {
       <span>#{index + 1}</span>
 
       {isCurrentUser && (
-        <button className="delete-btn" onClick={() => onDelete(record.id)}>
+        <button
+          className="delete-btn"
+          onClick={(e) => {
+            e.stopPropagation(); // чтобы не срабатывал onClick по строке
+            onDelete(record.id);
+          }}
+        >
           <Delete />
         </button>
       )}
@@ -110,7 +277,23 @@ const LeaderboardRow = ({ record, index, currentUserId, onDelete }) => {
   );
 };
 
+
 const LeaderboardPanel = ({ records, currentUserId, onDelete }) => {
+  const { openPopup, closePopup } = useContext(PopupContext);
+
+  const handleRowClick = (record, index) => {
+    openPopup(
+      <LeaderboardPopup
+        record={{
+          ...record,
+          rank: index + 1,
+          characters: "101/3/1", // или получай это из record
+        }}
+        onClose={closePopup}
+      />
+    );
+  };
+
   return (
     <div className="leaderboard-table-container">
       <h3>leaderboard</h3>
@@ -129,6 +312,7 @@ const LeaderboardPanel = ({ records, currentUserId, onDelete }) => {
               index={index}
               currentUserId={currentUserId}
               onDelete={onDelete}
+              onClick={() => handleRowClick(record, index)}
             />
           ))}
         </div>
