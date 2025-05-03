@@ -5,7 +5,7 @@ const client = new Client({
   host: "localhost",
   database: "typemonkeydb",
   password: "typemonkey123",
-  port: 5432,
+  port: 6000,
 });
 
 await client.connect();

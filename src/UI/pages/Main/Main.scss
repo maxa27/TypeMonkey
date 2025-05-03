@@ -1,3 +1,72 @@
 .main {
-  
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 70px;
+
+    .refresh {
+      cursor: pointer;
+      svg {
+        path:last-child {
+          fill: #ffffff59;
+        }
+      }
+
+      &:hover {
+        svg {
+          path:last-child {
+            fill: #fff;
+          }
+        }
+      }
+    }
+  }
+
+  .hotkey-hint {
+    position: absolute;
+    bottom: 5%;
+    display: flex;
+    align-items: center;
+    color: #948380;
+    font-size: 10px;
+    gap: 5px;
+    user-select: none;
+
+    .hint {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      .key {
+        padding: 4px;
+        background-color: #948380;
+        border-radius: 5px;
+        color: var(--background);
+      }
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
 }

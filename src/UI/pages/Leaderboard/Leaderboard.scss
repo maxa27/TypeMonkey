@@ -140,64 +140,67 @@
           align-items: center;
           gap: 10px;
 
-          .row {
-            height: 52px;
-            min-height: 52px;
-            position: relative;
-            margin-bottom: 5px;
-            background-color: #ffffff05;
-            border-radius: 20px;
-            color: #ffffff85;
-            font-size: 15px;
-            font-weight: 300;
-            border: #ffffff0d solid 1px;
-            cursor: pointer;
-
-            &:hover {
-              background-color: #ffffff1a;
-            }
-
-            &.current-user {
-              color: #f4c38c;
-              font-weight: 500;
-
-              .delete-btn {
-                position: absolute;
-                background: none;
-                border: none;
-                cursor: pointer;
-                font-size: 1.1rem;
-                margin-left: auto;
-                color: #fccfa1;
-                transition: 0.2s;
-                right: -6%;
-
-                svg {
-                  path:last-child {
-                    fill: #ffffff33;
-                  }
+                    .row {
+                        height: 52px;
+                        min-height: 52px;
+                        position: relative;
+                        margin-bottom: 5px;
+                        background-color: #FFFFFF05;
+                        border-radius: 20px;
+                        color: #ffffff85;
+                        font-size: 15px;
+                        font-weight: 300;
+                        border: #FFFFFF0D solid 1px;
+                        cursor: pointer;
+    
+                        &:hover {
+                            background-color: #FFFFFF1A;
+                        }
+    
+                        &.current-user {
+                            color: #f4c38c;
+                            font-weight: 500;
+    
+    
+                            .delete-btn {
+                                position: absolute;
+                                background: none;
+                                border: none;
+                                cursor: pointer;
+                                font-size: 1.1rem;
+                                padding: 0;
+                                margin-right: 2px;
+                                color: #FCCFA1;
+                                transition: 0.2s;
+                                right: -6%;
+    
+                                svg {
+                                    path:last-child {
+                                        fill: #FFFFFF33;
+                                    }
+                                }
+    
+                                &:hover {
+                                    color: red;
+                                }
+                            }
+                        }
+    
+    
+                        .name {
+                            display: flex;
+                            align-items: center;
+                            gap: 0.75rem;
+    
+                            .avatar {
+                                width: 32px;
+                                height: 32px;
+                                border-radius: 50%;
+                                object-fit: cover;
+                            }
+                        }
+                    }
                 }
-
-                &:hover {
-                  color: red;
-                }
-              }
-            }
-
-            .name {
-              display: flex;
-              align-items: center;
-              gap: 0.75rem;
-
-              .avatar {
-                width: 32px;
-                height: 32px;
-                border-radius: 50%;
-                object-fit: cover;
-              }
-            }
-          }
-        }
 
         /* Стиль для попапа */
         .popup-user-info {

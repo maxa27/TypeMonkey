@@ -1,0 +1,69 @@
+.gradient-border {
+  border-radius: 20px;
+  margin-bottom: 30px;
+
+  .select-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 40px;
+    background-color: var(--background-element);
+    padding: 2px 20px 0px 20px;
+    border-radius: 20px;
+    user-select: none;
+
+    .language {
+      color: #ffffff4d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      gap: 5px;
+      cursor: pointer;
+
+      &:hover {
+        color: #ffffffa9;
+        .icon {
+          svg {
+            path:last-child {
+              fill: #fff;
+            }
+          }
+        }
+      }
+
+      .icon {
+        display: flex;
+        align-items: center;
+        svg {
+          path:last-child {
+            fill: #ffffff4d;
+          }
+        }
+      }
+    }
+
+    .time-periods {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+
+      .time {
+        color: #ffffff4d;
+        font-size: 13px;
+        cursor: pointer;
+
+        &:hover {
+          color: #ffffffa9;
+        }
+
+        &.selected {
+          color: var(--main);
+        }
+      }
+    }
+  }
+}

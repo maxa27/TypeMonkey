@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./Leaderboard.scss";
 import { FaClock, FaGlobe } from "react-icons/fa";
 import Delete from "../../assets/icons/Delete";
-import { usePopup } from "../../context/Popup";
+import PopupContext from "../../context/PopupContext/PopupContext";
+import LeaderboardPopup from "../../popups/LeaderboardPopup/LeaderboardPopup";
 
 const records = [
   {
@@ -241,19 +242,13 @@ const SortingPanel = ({
   </div>
 );
 
-const LeaderboardRow = ({
-  record,
-  index,
-  currentUserId,
-  onDelete,
-  onClick,
-}) => {
+const LeaderboardRow = ({ record, index, currentUserId, onDelete, onClick }) => {
   const isCurrentUser = record.id === currentUserId;
 
   return (
     <div
       className={`row ${isCurrentUser ? "current-user" : ""}`}
-      onClick={() => isCurrentUser && onClick(record)}
+      onClick={onClick}
     >
       <div className="name">
         <img src={record.avatar} alt={record.name} className="avatar" />
@@ -267,7 +262,7 @@ const LeaderboardRow = ({
         <button
           className="delete-btn"
           onClick={(e) => {
-            e.stopPropagation(); // предотвратить открытие попапа при клике на delete
+            e.stopPropagation(); // чтобы не срабатывал onClick по строке
             onDelete(record.id);
           }}
         >
@@ -278,38 +273,55 @@ const LeaderboardRow = ({
   );
 };
 
-const LeaderboardPanel = ({ records, currentUserId, onDelete, onClickRow }) => (
-  <div className="leaderboard-table-container">
-    <h3>leaderboard</h3>
-    <div className="leaderboard-table">
-      <div className="header">
-        <span>name</span>
-        <span>wpm</span>
-        <span>accuracy</span>
-        <span>#</span>
-      </div>
-      <div className="records">
-        {records.map((record, index) => (
-          <LeaderboardRow
-            key={record.id}
-            record={record}
-            index={index}
-            currentUserId={currentUserId}
-            onDelete={onDelete}
-            onClick={onClickRow}
-          />
-        ))}
+
+const LeaderboardPanel = ({ records, currentUserId, onDelete }) => {
+  const { openPopup, closePopup } = useContext(PopupContext);
+
+  const handleRowClick = (record, index) => {
+    openPopup(
+      <LeaderboardPopup
+        record={{
+          ...record,
+          rank: index + 1,
+          characters: "101/3/1", // или получай это из record
+        }}
+        onClose={closePopup}
+      />
+    );
+  };
+
+  return (
+    <div className="leaderboard-table-container">
+      <h3>leaderboard</h3>
+      <div className="leaderboard-table">
+        <div className="header">
+          <span>name</span>
+          <span>wpm</span>
+          <span>accuracy</span>
+          <span>#</span>
+        </div>
+        <div className="records">
+          {records.map((record, index) => (
+            <LeaderboardRow
+              key={record.id}
+              record={record}
+              index={index}
+              currentUserId={currentUserId}
+              onDelete={onDelete}
+              onClick={() => handleRowClick(record, index)}
+            />
+          ))}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const Leaderboard = () => {
   const [activeMetric, setActiveMetric] = useState("wpm");
   const [activeTime, setActiveTime] = useState(15);
   const [activeLang, setActiveLang] = useState("en");
   const [userRecords, setUserRecords] = useState(records);
-  const { setPopup, closePopup } = usePopup();
 
   const handleDelete = (id) => {
     setUserRecords((prev) => prev.filter((r) => r.id !== id));
