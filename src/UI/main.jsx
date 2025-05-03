@@ -7,12 +7,15 @@ import Profile from "./pages/Profile";
 import Leaderboard from "./pages/Leaderboard";
 import Authorization from "./pages/Authorization";
 import { UserProvider } from "./context/UserProvider.jsx";
+import { PopupProvider } from "./context/Popup.jsx";
 import "./index.scss";
+
 
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
         <UserProvider>
+            <PopupProvider>
             <Routes>
                 <Route path="/" element={<MainLayout />}>
                     <Route path="main" element={<Main />} />
@@ -22,6 +25,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                     <Route path="leaderboard" element={<Leaderboard />} />
                 </Route>
             </Routes>
+            </PopupProvider>
         </UserProvider>
     </BrowserRouter>
 );
