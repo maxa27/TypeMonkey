@@ -23,12 +23,13 @@
   transition: all 0.3s ease;
 }
 
-.login-form button {
-  transition: all 0.3s ease;
-}
-
-.register-link {
-  transition: all 0.3s ease;
+.auth-error {
+  color: rgba(128, 69, 69, 1);
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 15px;
+  max-width: 300px;
+  line-height: 1.4;
 }
 
 .gradient-border {
@@ -37,7 +38,7 @@
 
 .login-container {
   padding: 30px 0px 15px 0px;
-  background: var(--background-element);
+  background: var(--background-element, #1b1312);
   border-radius: 25px;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
   display: flex;
@@ -71,7 +72,7 @@
     height: 50px;
     padding-left: 20px;
 
-    &:placeholder {
+    &::placeholder {
       color: #ffffff33;
     }
   }
