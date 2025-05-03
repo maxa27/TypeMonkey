@@ -1,147 +1,201 @@
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import Word from "../Word";
+import Caret from "../Caret";
 import json from "../../data/russian/data.json";
 
 import "./TypeArea.scss";
 
 export default function TypeArea() {
-  const isFocusedRef = useRef(true);
   const [isFocused, setIsFocused] = useState(true);
+  const inputRef = useRef("");
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
-
-  const caretIndent = useRef(0);
-  const wordLengthRef = useRef(0);
-  const wordRef = useRef("");
-  const letterIndexRef = useRef(0);
-  const inputRef = useRef("");
+  const currentWordIndexRef = useRef(0);
+  const currentLetterIndexRef = useRef(0);
+  const currentWordLength = useRef(0);
+  const currentLineRef = useRef(1);
+  const letterRefs = useRef({});
   const caretRef = useRef(null);
-  const hasMounted = useRef(false);
+  const containerRef = useRef(null);
 
-  const getActiveWordElement = () => document.querySelector(".word.active");
-  const getActiveWordLength = () =>
-    getActiveWordElement()?.querySelectorAll(".letter").length || 0;
-  const getActiveWord = () =>
-    Array.from(getActiveWordElement()?.querySelectorAll(".letter") || [])
-      .map((l) => l.textContent)
-      .join("");
+  const getWord = (index = currentWordIndexRef.current) => {
+    const wordEl = document.querySelector(`.word[data-index="${index}"]`);
+    const letters = wordEl.querySelectorAll(".letter");
+    let wordStr = "";
+    letters.forEach((l) => (wordStr += l.textContent));
 
-  const handleFocus = () => setIsFocused(true);
-
-  const nextWord = () => {
-    inputRef.current = "";
-    caretIndent.current = 0;
-    setCurrentLetterIndex(0);
-    setCurrentWordIndex((prev) => prev + 1);
+    return {
+      word: wordStr,
+      length: wordStr.length,
+    };
   };
 
-  const moveCaretToLetter = (wordIndex, letterIndex) => {
-    const letterSelector = `.word[data-index="${wordIndex}"] span[data-index="${
-      letterIndex - 1
-    }"]`;
-    const letterEl = document.querySelector(letterSelector);
+  const moveCaret = () => {
+    const caretEl = caretRef.current;
+    const containerEl = containerRef.current;
+    const targetIndex =
+      currentLetterIndexRef.current > 0 ? currentLetterIndexRef.current - 1 : 0;
 
-    if (!letterEl) return;
+    const letterEl =
+      letterRefs.current?.[currentWordIndexRef.current]?.[targetIndex];
 
-    const isCorrect = letterEl.textContent === inputRef.current;
-    letterEl.classList.add(isCorrect ? "correct" : "wrong");
+    if (!caretEl || !containerEl || !letterEl) return;
 
-    const caretEl = document.querySelector(".caret");
+    const containerRect = containerEl.getBoundingClientRect();
     const letterRect = letterEl.getBoundingClientRect();
-    caretIndent.current += letterRect.width;
 
-    if (caretEl) {
-      caretEl.style.left = `${caretIndent.current}px`;
-    }
-  };
+    const left =
+      currentLetterIndexRef.current === 0
+        ? letterRect.left - containerRect.left + containerEl.scrollLeft
+        : letterRect.right - containerRect.left + containerEl.scrollLeft;
 
-  const handleTyping = (e) => {
-    const { key } = e;
+    const top = letterRect.top - containerRect.top + containerEl.scrollTop;
 
-    if (key.length === 1) {
-      inputRef.current = key;
+    caretEl.style.left = `${left}px`;
+    caretEl.style.top = `${top}px`;
 
-      if (key === " ") {
-        nextWord();
-        return;
-      }
+    const currentLine = Math.floor(top / 25);
+    currentLineRef.current = currentLine;
 
-      if (currentLetterIndex < wordLengthRef.current) {
-        setCurrentLetterIndex((prev) => prev + 1);
-      } else {
-        nextWord();
-      }
-    }
+    if (currentLineRef.current >= 2) {
+      const scrollOffset = 43;
+      const currentScrollTop = containerEl.scrollTop;
+      const containerHeight = containerEl.clientHeight;
 
-    if (key === "Backspace" && letterIndexRef.current > 0) {
-      const prevIndex = letterIndexRef.current - 1;
-      const letterSelector = `.word[data-index="${currentWordIndex}"] span[data-index="${prevIndex}"]`;
-      const letterEl = document.querySelector(letterSelector);
-
-      if (letterEl) {
-        letterEl.classList.remove("correct", "wrong");
-
-        const letterRect = letterEl.getBoundingClientRect();
-        caretIndent.current = Math.max(
-          0,
-          caretIndent.current - letterRect.width
-        );
-
-        const caretEl = document.querySelector(".caret");
-        if (caretEl) {
-          caretEl.style.left = `${caretIndent.current}px`;
-        }
-
-        setCurrentLetterIndex((prev) => {
-          letterIndexRef.current = prev - 1;
-          return letterIndexRef.current;
+      if (top + scrollOffset >= currentScrollTop + containerHeight) {
+        containerEl.scrollTo({
+          top: currentScrollTop + scrollOffset,
+          behavior: "smooth",
         });
       }
     }
   };
 
-  useEffect(() => {
-    isFocusedRef.current = isFocused;
-  }, [isFocused]);
+  const handleKeyDown = (e) => {
+    const key = e.key;
+    if (key === " " || key === "Enter") {
+      const wordEl = document.querySelector(
+        `.word[data-index="${currentWordIndexRef.current}"]`
+      );
+      const wordStarted = wordEl && wordEl.classList.contains("started");
+      if (
+        currentLetterIndexRef.current === currentWordLength.current ||
+        wordStarted
+      ) {
+        currentWordIndexRef.current += 1;
+        currentLetterIndexRef.current = 0;
 
-  useLayoutEffect(() => {
-    if (!hasMounted.current) return;
-
-    wordLengthRef.current = getActiveWordLength();
-    wordRef.current = getActiveWord();
-    letterIndexRef.current = currentLetterIndex;
-
-    moveCaretToLetter(currentWordIndex, currentLetterIndex);
-  }, [currentWordIndex, currentLetterIndex]);
-
-  useEffect(() => {
-    if (!hasMounted.current) {
-      wordLengthRef.current = getActiveWordLength();
-      hasMounted.current = true;
+        setCurrentWordIndex(currentWordIndexRef.current);
+        setCurrentLetterIndex(currentLetterIndexRef.current);
+      }
+      return;
     }
 
-    const handleClickOutside = (event) => {
-      const wordsGrid = document.querySelector(".words-grid");
-      if (wordsGrid && !wordsGrid.contains(event.target)) {
-        setIsFocused(false);
+    if (key === "Backspace") {
+      const currentIndex = currentWordIndexRef.current;
+
+      if (currentLetterIndexRef.current === 0 && currentIndex > 0) {
+        const prevIndex = currentIndex - 1;
+        const prevLetters = letterRefs.current?.[prevIndex];
+
+        const isLocked =
+          prevLetters &&
+          Object.values(prevLetters).every((el) =>
+            el?.classList.contains("correct")
+          );
+
+        if (!isLocked) {
+          const lettersWithTypes = Object.entries(prevLetters)
+            .map(([key, el]) =>
+              el.classList.contains("wrong") || el.classList.contains("correct")
+                ? el
+                : null
+            )
+            .filter((e) => e !== null);
+
+          const maxDataIndex = lettersWithTypes.reduce((max, el) => {
+            const dataIndex = parseInt(el.dataset.index);
+            return dataIndex > max ? dataIndex : max;
+          }, -1);
+
+          currentWordIndexRef.current = prevIndex;
+          currentLetterIndexRef.current = maxDataIndex + 1;
+
+          setCurrentWordIndex(prevIndex);
+          setCurrentLetterIndex(maxDataIndex + 1);
+        }
+      } else {
+        const deleteIndex = currentLetterIndexRef.current - 1;
+        const letterEl =
+          letterRefs.current?.[currentWordIndexRef.current]?.[deleteIndex];
+
+        if (letterEl) {
+          letterEl.classList.remove("correct", "wrong");
+        }
+
+        currentLetterIndexRef.current = Math.max(0, deleteIndex);
+        setCurrentLetterIndex(currentLetterIndexRef.current);
       }
-    };
+      return;
+    }
 
-    const handleKeyDown = (e) => {
-      if (isFocusedRef.current) handleTyping(e);
-    };
+    if (key.length === 1) {
+      inputRef.current = key;
 
+      const currentLetterEl =
+        letterRefs.current?.[currentWordIndexRef.current]?.[
+          currentLetterIndexRef.current
+        ];
+
+      if (currentLetterEl) {
+        const expectedChar = currentLetterEl.textContent;
+        if (key === expectedChar) {
+          currentLetterEl.classList.add("correct");
+          currentLetterEl.classList.remove("wrong");
+        } else {
+          currentLetterEl.classList.add("wrong");
+          currentLetterEl.classList.remove("correct");
+        }
+      }
+
+      currentLetterIndexRef.current =
+        currentLetterIndexRef.current + 1 > currentWordLength.current
+          ? currentLetterIndexRef.current
+          : currentLetterIndexRef.current + 1;
+
+      setCurrentLetterIndex(currentLetterIndexRef.current);
+    }
+  };
+
+  const handleClickOutside = (e) => {
+    if (!containerRef.current.contains(e.target)) {
+      setIsFocused(false);
+    } else {
+      setIsFocused(true);
+    }
+  };
+
+  useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-    window.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
+  useLayoutEffect(() => {
+    currentWordLength.current = getWord().length;
+    moveCaret();
+  }, [currentLetterIndex, currentWordIndex, isFocused]);
+
   return (
-    <div className="words-grid" onClick={handleFocus}>
+    <div
+      className="words-grid"
+      ref={containerRef}
+      onClick={() => setIsFocused(true)}
+    >
       {json.words.slice(0, 150).map((w, key) => (
         <Word
           key={key}
@@ -149,9 +203,15 @@ export default function TypeArea() {
           wordIndex={key}
           isActive={key === currentWordIndex}
           isFocused={isFocused}
-          caretRef={caretRef}
+          letterRefs={letterRefs}
+          hasFinished={
+            key === currentWordIndex &&
+            currentLetterIndex === currentWordLength.current
+          }
+          isTyping={key === currentWordIndex && currentLetterIndex > 0}
         />
       ))}
+      {isFocused && <Caret ref={caretRef} />}
     </div>
   );
 }

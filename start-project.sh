@@ -23,7 +23,7 @@ if ! docker ps | grep typemonkey-db > /dev/null 2>&1; then
   echo "🗃️ Starting PostgreSQL container..."
   docker ps -a --format '{{.Names}}' | grep typemonkey-db > /dev/null 2>&1 \
     && docker start typemonkey-db \
-    || docker run -d -p 5432:5432 --name typemonkey-db typemonkey-db
+    || docker run -d -p 6000:5432 --name typemonkey-db typemonkey-db
 else
   echo "🟢 Database container already running."
 fi
