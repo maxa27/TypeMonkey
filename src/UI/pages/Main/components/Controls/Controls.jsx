@@ -19,7 +19,7 @@ export default function Controls({
   };
 
   return (
-    <div className="gradient-border">
+    <div className="gradient-border-controls">
       <div className="select-controls">
         <div className="language" onClick={selectLanguage}>
           <div className="icon">
