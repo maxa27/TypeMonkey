@@ -6,7 +6,7 @@ const LeaderboardPopup = ({ record, onClose }) => {
 
   return (
     <div className="gradient-border-popup">
-      <div className="record-popup">
+      <div className="leaderboard-record-popup">
         <button className="close-btn" onClick={onClose}>
           {" "}
         </button>
