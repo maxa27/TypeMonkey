@@ -2,8 +2,8 @@ import React, { useState, useContext } from "react";
 import "./Leaderboard.scss";
 import { FaClock, FaGlobe } from "react-icons/fa";
 import Delete from "../../assets/icons/Delete";
-import PopupContext from "../../context/PopupContext/PopupContext";
 import LeaderboardPopup from "../../popups/LeaderboardPopup/LeaderboardPopup";
+import { usePopup } from "../../context/PopupContext/PopupProvider";
 
 const records = [
   {
@@ -262,7 +262,7 @@ const LeaderboardRow = ({ record, index, currentUserId, onDelete, onClick }) => 
         <button
           className="delete-btn"
           onClick={(e) => {
-            e.stopPropagation(); // чтобы не срабатывал onClick по строке
+            e.stopPropagation();
             onDelete(record.id);
           }}
         >
@@ -275,7 +275,7 @@ const LeaderboardRow = ({ record, index, currentUserId, onDelete, onClick }) => 
 
 
 const LeaderboardPanel = ({ records, currentUserId, onDelete }) => {
-  const { openPopup, closePopup } = useContext(PopupContext);
+  const { openPopup, closePopup } = usePopup();
 
   const handleRowClick = (record, index) => {
     openPopup(

@@ -7,7 +7,7 @@ import Profile from "./pages/Profile";
 import Leaderboard from "./pages/Leaderboard";
 import Authorization from "./pages/Authorization";
 import { UserProvider } from "./context/UserContext/UserProvider.jsx";
-import  PopupProvider  from "./context/PopupContext/PopupProvider.jsx";
+import { PopupProvider } from "./context/PopupContext/PopupProvider.jsx";
 import "./index.scss";
 
 ReactDOM.createRoot(document.getElementById("root")).render(

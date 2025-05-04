@@ -1,6 +1,7 @@
 .gradient-border {
+  position: absolute;
   border-radius: 20px;
-  margin-bottom: 30px;
+  top: 0;
 
   .select-controls {
     display: flex;

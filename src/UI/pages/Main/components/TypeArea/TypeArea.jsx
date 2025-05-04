@@ -1,15 +1,21 @@
 import { useEffect, useRef, useState, useLayoutEffect } from "react";
 import Word from "../Word";
 import Caret from "../Caret";
-import json from "../../data/russian/data.json";
 
 import "./TypeArea.scss";
 
-export default function TypeArea() {
-  const [isFocused, setIsFocused] = useState(true);
-  const inputRef = useRef("");
+export default function TypeArea({
+  start,
+  language,
+  correctCharsRef,
+  totalChars,
+}) {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
+  const [isFocused, setIsFocused] = useState(true);
+  const [json, setJson] = useState(null);
+  const inputRef = useRef("");
+
   const currentWordIndexRef = useRef(0);
   const currentLetterIndexRef = useRef(0);
   const currentWordLength = useRef(0);
@@ -130,6 +136,10 @@ export default function TypeArea() {
           letterRefs.current?.[currentWordIndexRef.current]?.[deleteIndex];
 
         if (letterEl) {
+          totalChars.current -= 1;
+          if (letterEl.classList.contains("correct")) {
+            correctCharsRef.current -= 1;
+          }
           letterEl.classList.remove("correct", "wrong");
         }
 
@@ -140,6 +150,9 @@ export default function TypeArea() {
     }
 
     if (key.length === 1) {
+      if (inputRef.current === "") {
+        start();
+      }
       inputRef.current = key;
 
       const currentLetterEl =
@@ -151,9 +164,12 @@ export default function TypeArea() {
         const expectedChar = currentLetterEl.textContent;
         if (key === expectedChar) {
           currentLetterEl.classList.add("correct");
+          correctCharsRef.current += 1;
+          totalChars.current += 1;
           currentLetterEl.classList.remove("wrong");
         } else {
           currentLetterEl.classList.add("wrong");
+          totalChars.current += 1;
           currentLetterEl.classList.remove("correct");
         }
       }
@@ -185,10 +201,20 @@ export default function TypeArea() {
     };
   }, []);
 
+  useEffect(() => {
+    const loadJson = async () => {
+      const data = await import(`../../data/${language}/data.json`);
+      setJson(data.default);
+    };
+
+    loadJson();
+  }, [language]);
+
   useLayoutEffect(() => {
+    if (!json) return;
     currentWordLength.current = getWord().length;
     moveCaret();
-  }, [currentLetterIndex, currentWordIndex, isFocused]);
+  }, [currentLetterIndex, currentWordIndex, isFocused, json]);
 
   return (
     <div
@@ -196,7 +222,7 @@ export default function TypeArea() {
       ref={containerRef}
       onClick={() => setIsFocused(true)}
     >
-      {json.words.slice(0, 150).map((w, key) => (
+      {json?.words.slice(0, 150).map((w, key) => (
         <Word
           key={key}
           word={w}

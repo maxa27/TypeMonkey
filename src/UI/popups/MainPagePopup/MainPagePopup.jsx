@@ -1,8 +1,10 @@
 import React from "react";
+import { useUser } from "../../context/UserContext/UserProvider";
 import "./MainPagePopup.scss";
 
 const MainPagePopup = ({ record, onClose }) => {
-  if (!record) return null;
+  const { user } = useUser();
+  // if (!record) return null;
 
   return (
     <div className="gradient-border-popup">
@@ -10,7 +12,7 @@ const MainPagePopup = ({ record, onClose }) => {
         <button className="close-btn" onClick={onClose}>
           {" "}
         </button>
-        <img src={record.avatar} alt={record.name} className="avatar" />
+        <img src={"https://i.pinimg.com/736x/be/fe/3d/befe3d6afd4f82019769063e93346167.jpg"} alt="reden" className="avatar" />
 
         <div className="stats">
           <div className="stat acc">
@@ -19,7 +21,7 @@ const MainPagePopup = ({ record, onClose }) => {
           </div>
 
           <div className="stat name">
-            <h2>{record.name}</h2>
+            <h2>reden</h2>
           </div>
 
           <div className="stat wpm">
@@ -35,7 +37,7 @@ const MainPagePopup = ({ record, onClose }) => {
 
           <div className="stat leaderboard">
             <p>leaderboard</p>
-            <strong>#{record.rank}</strong>
+            <strong>#1</strong>
           </div>
 
           <div className="stat chars">

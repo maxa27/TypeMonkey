@@ -1,9 +1,22 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useCallback,
+  useEffect,
+  useContext,
+} from "react";
 import ReactDOM from "react-dom";
-import PopupContext from "./PopupContext";
 import "./PopupStyles.scss";
 
-const PopupProvider = ({ children }) => {
+const PopupContext = createContext({
+  openPopup: () => {},
+  closePopup: () => {},
+  isOpen: false,
+});
+
+export const usePopup = () => useContext(PopupContext);
+
+export const PopupProvider = ({ children }) => {
   const [popupContent, setPopupContent] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -26,17 +39,15 @@ const PopupProvider = ({ children }) => {
 
     if (isOpen) {
       window.addEventListener("keydown", handleKeyDown);
-    } else {
-      window.removeEventListener("keydown", handleKeyDown);
     }
 
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [isOpen, closePopup]);
 
-  // Accessibility: блокировка фоновых элементов
   useEffect(() => {
     const appRoot = document.getElementById("root");
-
     if (!appRoot) return;
 
     if (isOpen) {
@@ -58,7 +69,7 @@ const PopupProvider = ({ children }) => {
       {children}
       {isOpen &&
         ReactDOM.createPortal(
-          <div className="popup-overlay" onClick={closePopup}>
+          <div className="popup-overlay">
             <div
               className="popup-content"
               onClick={(e) => e.stopPropagation()}
@@ -70,7 +81,4 @@ const PopupProvider = ({ children }) => {
         )}
     </PopupContext.Provider>
   );
-  
 };
-
-export default PopupProvider;

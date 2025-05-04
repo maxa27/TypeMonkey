@@ -2,12 +2,16 @@ import { useState } from "react";
 import WorldIcon from "../../../../assets/icons/World";
 import "./Controls.scss";
 
-export default function Controls() {
-  const [time, setTime] = useState(30);
-  const [language, setLanguage] = useState("russian");
-
+export default function Controls({
+  time,
+  setTime,
+  setTimerTime,
+  language,
+  setLanguage,
+}) {
   const selectTime = (newTime) => {
     setTime(newTime);
+    setTimerTime(newTime);
   };
 
   const selectLanguage = () => {
