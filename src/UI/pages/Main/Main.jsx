@@ -17,29 +17,87 @@ const Main = () => {
   const totalChars = useRef(0);
   const { openPopup, closePopup } = usePopup();
 
-  function calculateTypingStats() {
+  // async function calculateTypingStats () {
+  //   if (time === 0) {
+  //     return {
+  //       wpm: 0.0,
+  //       rawWpm: 0.0,
+  //       accuracy: 0.0,
+  //     };
+  //   }
+
+  //   const wpm = parseFloat((correctCharsRef.current * 60) / (5 * time).toFixed(2));
+  //   const accuracy = parseFloat((correctCharsRef.current > 0 ? (correctCharsRef.current / totalChars.current) * 100 : 0.0).toFixed(2));
+    
+  //   const characters = `${totalChars.current}/${correctCharsRef.current}/${totalChars.current - correctCharsRef.current}`;
+
+  //   const response = await window.api.call("addRecord",[JSON.parse(localStorage.getItem("user")).id, wpm, accuracy, time, characters, language]);
+    
+  //   console.log(response.data);
+    
+  //   return response.data;
+  // }
+
+  async function calculateTypingStats () {
     if (time === 0) {
       return {
         wpm: 0.0,
-        rawWpm: 0.0,
         accuracy: 0.0,
+        characters: "0/0/0",
+        rank: null,
+        updated: false,
       };
     }
+  
+    const user = JSON.parse(localStorage.getItem("user"));
+    const wpm = parseFloat(((correctCharsRef.current * 60) / (5 * time)).toFixed(2));
+    const accuracy = parseFloat(((correctCharsRef.current / totalChars.current) * 100).toFixed(2));
+    const characters = `${totalChars.current}/${correctCharsRef.current}/${totalChars.current - correctCharsRef.current}`;
 
-    const wpm = (correctCharsRef.current * 60) / (5 * time);
-    const rawWpm = (totalChars.current * 60) / (5 * time);
-    const accuracy = correctCharsRef.current > 0 ? (correctCharsRef.current / totalChars.current) * 100 : 0.0;
-
+    const avatarRes = await window.api.call("getUserById", [user.id]);
+  
+    // 1. Пытаемся добавить рекорд
+    const addRes = await window.api.call("addRecord", [
+      user.id, wpm, accuracy, time, characters, language
+    ]);
+  
+    // 2. Если рекорд не побит — всё равно пытаемся получить текущий rank
+    if (addRes.status === 200 && addRes.error?.includes("не побит")) {
+      const rankRes = await window.api.call("getUserRank", [user.id, language, time]);
+  
+      return {
+        wpm,
+        accuracy,
+        characters,
+        time,
+        avatar: avatarRes.success ? avatarRes.data.avatar : null,
+        language,
+        rank: rankRes.success ? rankRes.data.rank : null,
+        updated: false, // флаг: запись не была обновлена
+      };
+    }
+  
+    if (!addRes.success) {
+      console.error("Ошибка добавления рекорда:", addRes.error);
+      return null;
+    }
+  
+    // 3. Если рекорд обновился — rank по новой записи
+    const rankRes = await window.api.call("getUserRank", [user.id, language, time]);
+  
     return {
-      wpm: parseFloat(wpm.toFixed(2)),
-      rawWpm: parseFloat(rawWpm.toFixed(2)),
-      accuracy: parseFloat(accuracy.toFixed(2)),
-      characters: `${totalChars.current}/${correctCharsRef.current}/${totalChars.current - correctCharsRef.current}`,
+      wpm,
+      accuracy,
+      characters,
       time,
-      lang: language,
+      language,
+      avatar: avatarRes.success ? avatarRes.data.avatar : null,
+      rank: rankRes.success ? rankRes.data.rank : null,
+      updated: true,
     };
   }
-
+  
+  
   const refresh = () => {
     setRefreshKey((prev) => prev + 1);
     setIsStarted(false);
@@ -56,8 +114,8 @@ const Main = () => {
     }
   };
 
-  const finish = () => {
-    const record = calculateTypingStats()
+  const finish = async () => {
+    const record = await calculateTypingStats()
     openPopup(
       <MainPagePopup
         onClose={() => {

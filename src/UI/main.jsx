@@ -17,9 +17,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route path="main" element={<Main />} />
+            {/* <Route path="main" element={<Authorization />} /> */}
             <Route index element={<Authorization />} />
             <Route path="profile" element={<Profile />} />
-            <Route index element={<Leaderboard />} />
             <Route path="leaderboard" element={<Leaderboard />} />
           </Route>
         </Routes>

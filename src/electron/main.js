@@ -61,13 +61,7 @@ ipcMain.handle('api-call', async (_event, { method, args }) => {
       };
     }
 
-    const result = await db[method](...args);
-    return {
-      success: true,
-      status: result?.status ?? 200,
-      data: result?.data ?? result,
-      error: null,
-    };
+    return await db[method](...args);
   } catch (err) {
     console.error(`Ошибка в ${method}:`, err);
     return {
@@ -78,3 +72,4 @@ ipcMain.handle('api-call', async (_event, { method, args }) => {
     };
   }
 });
+
