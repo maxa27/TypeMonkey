@@ -30,7 +30,7 @@ const LeaderboardPopup = ({ record, onClose }) => {
           <div className="stat test">
             <p>test type</p>
             <strong>time {record.time}</strong>
-            <span>{record.lang}</span>
+            <span>{record.language}</span>
           </div>
 
           <div className="stat leaderboard">

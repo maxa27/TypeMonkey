@@ -1,9 +1,9 @@
 .profile {
-    display: flex; 
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 
   .profile-container {
     display: flex;
@@ -11,120 +11,149 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 65px;
-  
-      h3 {
-        font-size: 20px;
-        color: #ffffff9d;
-        margin-bottom: 20px;
-        font-weight: 400;
+
+    h3 {
+      font-size: 20px;
+      color: #ffffff9d;
+      margin-bottom: 20px;
+      font-weight: 400;
+    }
+
+    .gradient-border {
+      border-radius: 16px;
+    }
+
+    .profile-block {
+      background: var(--background-element);
+      width: 400px;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      .profile-pic-wrapper {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        margin-bottom: 24px;
+        cursor: pointer;
+
+        .profile-pic {
+          border-radius: 50%;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+
+        .pic-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          background: rgba(0, 0, 0, 0.644);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transition: 0.3s ease;
+          cursor: pointer;
+        }
+
+        &:hover .pic-overlay {
+          opacity: 1;
+        }
       }
 
-      .gradient-border {
-        border-radius: 16px;
-      }
-  
-      .profile-block {
-        background: var(--background-element);
-        width: 400px;
-        padding: 32px;
-        border-radius: 16px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      .description {
         display: flex;
         flex-direction: column;
-        align-items: center;
-        text-align: center;
-  
-        .profile-pic-wrapper {
-          position: relative;
-          width: 100px;
-          height: 100px;
-          margin-bottom: 24px;
-          cursor: pointer;
-  
-          .profile-pic {
-            border-radius: 50%;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-          }
-  
-          .pic-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.644);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: 0.3s ease;
-          }
-  
-          &:hover .pic-overlay {
-            opacity: 1;
-          }
-        }
-  
-        .description {
-          display: flex;
-          flex-direction: column;
-          width: 100%;
-  
-          .el-block {
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            padding: 0 8px;
-            gap: 10px;
-          
-            .el-first {
-              color: #ffffff34;
-            }
-          
-            .el-second {
-              color: #ffffff80;
-            }
-          
-            .value-with-button {
-              display: flex;
-              align-items: center;
-              gap: 4px;
-            }
-          
-            .change-btn {
-              background: none;
-              font-weight: 100;
-              border: none;
-              color: #ffffff4d;
-              font-size: 12px;
-              cursor: pointer;
-              transition: 0.2s;
-          
-              &:hover {
-                color: #fff;
-              }
-            }
-          }
-        }
-        .logout-btn {
-          display: flex;
-          align-items: flex-start;
-          background: none;
-          border: none;
-          color: #ffffff48;
-          font-size: 12px;
-          cursor: pointer;
-          transition: 0.2s ease-in-out;
+        width: 100%;
 
-          &:hover {
-            color: #fff;
+        .el-block {
+          display: flex;
+          align-items: center;
+          font-size: 16px;
+          padding: 0 8px;
+          gap: 10px;
+
+          .edit-name-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            .name-input {
+              background: #FFFFFF05;
+              border: #FFFFFF33 solid 1px;
+              padding: 8px 12px;
+              color: #fff;
+              border-radius: 14px;
+              font-size: 1.1rem;
+              outline: none;
+            }
+
+            .check-btn {
+              background: none;
+              border: none;
+              color: #fff;
+              font-size: 1.4rem;
+              cursor: pointer;
+            }
           }
+
+          .el-first {
+            color: #ffffff34;
+          }
+
+          .el-second {
+            color: #ffffff80;
+          }
+
+          .value-with-button {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+          }
+
+          .change-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+          
+            svg .pencil {
+              fill: #ffffff4d;
+              transition: fill 0.2s ease;
+            }
+          
+            &:hover svg .pencil {
+              fill: #fff;
+            }
+          }
+          
+          
+        }
+      }
+
+      .logout-btn {
+        display: flex;
+        align-items: flex-start;
+        background: none;
+        border: none;
+        color: #ffffff48;
+        font-size: 12px;
+        cursor: pointer;
+        transition: 0.2s ease-in-out;
+
+        &:hover {
+          color: #fff;
         }
       }
     }
   }
-  
+}

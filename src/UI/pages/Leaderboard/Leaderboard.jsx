@@ -1,192 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./Leaderboard.scss";
 import { FaClock, FaGlobe } from "react-icons/fa";
 import Delete from "../../assets/icons/Delete";
 import LeaderboardPopup from "../../popups/LeaderboardPopup/LeaderboardPopup";
 import { usePopup } from "../../context/PopupContext/PopupProvider";
-
-const records = [
-  {
-    id: 1,
-    name: "qu1xx",
-    wpm: 304.76,
-    accuracy: 98.96,
-    time: 15,
-    lang: "en",
-    avatar: "/avatars/1.png",
-  },
-  {
-    id: 2,
-    name: "Trvlxx",
-    wpm: 254.3,
-    accuracy: 93.2,
-    time: 30,
-    lang: "ru",
-    avatar: "/avatars/2.png",
-  },
-  {
-    id: 3,
-    name: "reden",
-    wpm: 242.52,
-    accuracy: 97.56,
-    time: 60,
-    lang: "en",
-    avatar: "/avatars/3.png",
-  },
-  {
-    id: 4,
-    name: "Fragifty",
-    wpm: 222.46,
-    accuracy: 94.56,
-    time: 30,
-    lang: "ru",
-    avatar: "/avatars/4.png",
-  },
-  {
-    id: 5,
-    name: "wleha",
-    wpm: 150.23,
-    accuracy: 96.86,
-    time: 15,
-    lang: "en",
-    avatar: "/avatars/5.png",
-  },
-  {
-    id: 6,
-    name: "Nova",
-    wpm: 198.12,
-    accuracy: 92.15,
-    time: 15,
-    lang: "ru",
-    avatar: "/avatars/6.png",
-  },
-  {
-    id: 7,
-    name: "Ghost",
-    wpm: 175.5,
-    accuracy: 91.0,
-    time: 60,
-    lang: "en",
-    avatar: "/avatars/7.png",
-  },
-  {
-    id: 8,
-    name: "Lunar",
-    wpm: 189.3,
-    accuracy: 94.7,
-    time: 60,
-    lang: "ru",
-    avatar: "/avatars/8.png",
-  },
-  {
-    id: 9,
-    name: "CyberZen",
-    wpm: 210.1,
-    accuracy: 95.5,
-    time: 30,
-    lang: "en",
-    avatar: "/avatars/9.png",
-  },
-  {
-    id: 10,
-    name: "AlphaX",
-    wpm: 225.8,
-    accuracy: 90.3,
-    time: 15,
-    lang: "en",
-    avatar: "/avatars/10.png",
-  },
-  {
-    id: 11,
-    name: "Bolt",
-    wpm: 241.6,
-    accuracy: 98.2,
-    time: 60,
-    lang: "ru",
-    avatar: "/avatars/11.png",
-  },
-  {
-    id: 12,
-    name: "Hexa",
-    wpm: 203.4,
-    accuracy: 93.8,
-    time: 30,
-    lang: "en",
-    avatar: "/avatars/12.png",
-  },
-  {
-    id: 13,
-    name: "Skyline",
-    wpm: 220.7,
-    accuracy: 95.1,
-    time: 15,
-    lang: "ru",
-    avatar: "/avatars/13.png",
-  },
-  {
-    id: 14,
-    name: "Orbit",
-    wpm: 180.9,
-    accuracy: 90.9,
-    time: 30,
-    lang: "en",
-    avatar: "/avatars/14.png",
-  },
-  {
-    id: 15,
-    name: "Phantom",
-    wpm: 194.3,
-    accuracy: 92.6,
-    time: 60,
-    lang: "ru",
-    avatar: "/avatars/15.png",
-  },
-  {
-    id: 16,
-    name: "Neo",
-    wpm: 215.7,
-    accuracy: 97.3,
-    time: 15,
-    lang: "en",
-    avatar: "/avatars/16.png",
-  },
-  {
-    id: 17,
-    name: "Raven",
-    wpm: 208.5,
-    accuracy: 91.9,
-    time: 60,
-    lang: "ru",
-    avatar: "/avatars/17.png",
-  },
-  {
-    id: 18,
-    name: "Pixel",
-    wpm: 232.8,
-    accuracy: 94.8,
-    time: 30,
-    lang: "en",
-    avatar: "/avatars/18.png",
-  },
-  {
-    id: 19,
-    name: "Draco",
-    wpm: 246.2,
-    accuracy: 96.4,
-    time: 60,
-    lang: "en",
-    avatar: "/avatars/19.png",
-  },
-  {
-    id: 20,
-    name: "Blaze",
-    wpm: 259.1,
-    accuracy: 97.9,
-    time: 15,
-    lang: "ru",
-    avatar: "/avatars/20.png",
-  },
-];
+import { useUser } from "../../context/UserContext/UserProvider";
 
 const SortingPanel = ({
   activeMetric,
@@ -226,14 +44,14 @@ const SortingPanel = ({
       </div>
       <div className="filters language-filters">
         <button
-          className={`filter ${activeLang === "en" ? "active" : ""}`}
-          onClick={() => onChangeLang("en")}
+          className={`filter ${activeLang === "english" ? "active" : ""}`}
+          onClick={() => onChangeLang("english")}
         >
           EN
         </button>
         <button
-          className={`filter ${activeLang === "ru" ? "active" : ""}`}
-          onClick={() => onChangeLang("ru")}
+          className={`filter ${activeLang === "russian" ? "active" : ""}`}
+          onClick={() => onChangeLang("russian")}
         >
           RU
         </button>
@@ -242,8 +60,14 @@ const SortingPanel = ({
   </div>
 );
 
-const LeaderboardRow = ({ record, index, currentUserId, onDelete, onClick }) => {
-  const isCurrentUser = record.id === currentUserId;
+const LeaderboardRow = ({
+  record,
+  index,
+  currentUserId,
+  onDelete,
+  onClick,
+}) => {
+  const isCurrentUser = record.user_id === currentUserId;
 
   return (
     <div
@@ -261,9 +85,9 @@ const LeaderboardRow = ({ record, index, currentUserId, onDelete, onClick }) => 
       {isCurrentUser && (
         <button
           className="delete-btn"
-          onClick={(e) => {
+          onClick={async (e) => {
             e.stopPropagation();
-            onDelete(record.id);
+            await onDelete(record.id);
           }}
         >
           <Delete />
@@ -272,7 +96,6 @@ const LeaderboardRow = ({ record, index, currentUserId, onDelete, onClick }) => 
     </div>
   );
 };
-
 
 const LeaderboardPanel = ({ records, currentUserId, onDelete }) => {
   const { openPopup, closePopup } = usePopup();
@@ -283,7 +106,6 @@ const LeaderboardPanel = ({ records, currentUserId, onDelete }) => {
         record={{
           ...record,
           rank: index + 1,
-          characters: "101/3/1", // или получай это из record
         }}
         onClose={closePopup}
       />
@@ -318,13 +140,48 @@ const LeaderboardPanel = ({ records, currentUserId, onDelete }) => {
 };
 
 const Leaderboard = () => {
+  const { user } = useUser();
   const [activeMetric, setActiveMetric] = useState("wpm");
   const [activeTime, setActiveTime] = useState(15);
-  const [activeLang, setActiveLang] = useState("en");
-  const [userRecords, setUserRecords] = useState(records);
+  const [activeLang, setActiveLang] = useState("english");
+  const [userRecords, setUserRecords] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleDelete = (id) => {
-    setUserRecords((prev) => prev.filter((r) => r.id !== id));
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const res = await window.api.call("getLeaderboardRecords", [
+        activeTime,
+        activeLang,
+        activeMetric,
+      ]);
+
+      if (res.success) {
+        setUserRecords(res.data);
+      } else {
+        console.error("Ошибка загрузки рекордов:", res.error);
+      }
+      setLoading(false);
+    };
+
+    fetchData();
+  }, [activeTime, activeLang, activeMetric]);
+
+  const handleDelete = async (recordId) => {
+    try {
+      const res = await window.api.call("deleteRecord", [recordId]);
+      console.log("Результат удаления:", res);
+
+      if (!res.success) {
+        alert(res.error || "Ошибка при удалении");
+        return;
+      }
+
+      // Удаляем из списка
+      setUserRecords((prev) => prev.filter((r) => r.id !== recordId));
+    } catch (err) {
+      console.error("Ошибка удаления:", err);
+    }
   };
 
   const handleRowClick = (record) => {
@@ -345,10 +202,6 @@ const Leaderboard = () => {
     );
   };
 
-  const filtered = userRecords
-    .filter((r) => r.time === activeTime && r.lang === activeLang)
-    .sort((a, b) => b[activeMetric] - a[activeMetric]);
-
   return (
     <div className="leaderboard-page">
       <div className="leaderboard">
@@ -360,23 +213,19 @@ const Leaderboard = () => {
           activeLang={activeLang}
           onChangeLang={setActiveLang}
         />
-        <LeaderboardPanel
-          records={filtered}
-          currentUserId={1}
-          onDelete={handleDelete}
-          onClickRow={handleRowClick}
-        />
+        {loading ? (
+          <div className="loading">Загрузка...</div>
+        ) : (
+          <LeaderboardPanel
+            records={userRecords}
+            currentUserId={user.id}
+            onDelete={handleDelete}
+            onClickRow={handleRowClick}
+          />
+        )}
       </div>
     </div>
   );
 };
 
 export default Leaderboard;
-// const handleDelete = async (recordId) => {
-//     const res = await window.api.call('deleteRecord', [recordId]);
-//     if (res.success) {
-//         console.log('Рекорд удалён');
-//     } else {
-//         console.error('Ошибка удаления:', res.error);
-//     }
-// };
