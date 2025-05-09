@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import "./Profile.scss";
 import { useUser } from "../../context/UserContext/UserProvider.jsx";
 
@@ -8,9 +8,18 @@ const Profile = () => {
   const [email, setEmail] = useState(null);
   const [avatar, setAvatar] = useState(null);
   const [isEditingName, setIsEditingName] = useState(false);
-  const [newName, setNewName] = useState(user?.name || "");
+  const [inputData, setInputData] = useState(null)
+  const [name, setName] = useState(null);
 
   useEffect(() => {
+    if (!user) return;
+
+    if (!name && !avatar) {
+      setName(user.name);
+      setAvatar(user.avatar);
+      setInputData(user.name)
+    }
+
     const fetchData = async () => {
       const saved = JSON.parse(localStorage.getItem("user"));
       const response = await window.api.call("getUserById", [saved.id]);
@@ -23,44 +32,42 @@ const Profile = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [name, avatar, user]);
 
   const handleNameChange = async () => {
-    const res = await window.api.call("updateUserName", [user.id, newName]);
+    const res = await window.api.call("updateUserName", [user.id, inputData]);
     if (res.success) {
       setIsEditingName(false);
-      localStorage.setItem("user", JSON.stringify({ ...user, name: newName }));
-      window.location.reload();
+      setName(inputData);
+      user.name = inputData
+      localStorage.setItem("user", JSON.stringify({ ...user, name: inputData }));
     }
   };
 
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-  
+
     const reader = new FileReader();
     reader.onloadend = async () => {
       const base64 = reader.result;
-  
+
       // 1. Сохраняем локально
       setAvatar(base64);
-  
+
       // 2. Отправка в БД через API, если нужно:
-      
-      const res = await window.api.call('updateUserAvatar', [
-        user.id,
-        base64,
-      ]);
+
+      const res = await window.api.call("updateUserAvatar", [user.id, base64]);
       if (res.success) {
-        localStorage.setItem('user', JSON.stringify({ ...user, avatar: base64 }));
-      } else {
-        alert("Ошибка при загрузке аватара");
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ ...user, avatar: base64 })
+        );
       }
     };
-  
+
     reader.readAsDataURL(file);
   };
-  
 
   return (
     <div className="profile">
@@ -98,8 +105,10 @@ const Profile = () => {
                 <div className="edit-name-wrapper">
                   <input
                     className="name-input"
-                    value={newName}
-                    onChange={(e) => setNewName(e.target.value)}
+                    value={inputData}
+                    onChange={(e) => {
+                      setInputData(e.target.value)
+                    }}
                   />
                   <button className="check-btn" onClick={handleNameChange}>
                     ✓
@@ -107,11 +116,10 @@ const Profile = () => {
                 </div>
               ) : (
                 <div className="value-with-button">
-                  <p className="el-second">{user?.name}</p>
+                  <p className="el-second">{name}</p>
                   <button
                     className="change-btn"
                     onClick={() => {
-                      setNewName(user?.name);
                       setIsEditingName(true);
                     }}
                   >

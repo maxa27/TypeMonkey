@@ -2,12 +2,8 @@ import React from "react";
 import { useUser } from "../../context/UserContext/UserProvider";
 import "./MainPagePopup.scss";
 
-const MainPagePopup = ({ record, onClose }) => {
+const MainPagePopup = ({ record, tryAgain, onClose }) => {
   const { user } = useUser();
-  // if (!record) return null;
-  console.log(record);
-  
-
   return (
     <div className="gradient-border-popup">
       <div className="record-popup">
@@ -48,7 +44,10 @@ const MainPagePopup = ({ record, onClose }) => {
           </div>
         </div>
         <div className="gradient-border-popup-btn">
-          <button className="restart-btn">try again</button>
+          <button className="restart-btn" onClick={() => {
+            tryAgain()
+            onClose()
+          }}>try again</button>
         </div>
       </div>
     </div>

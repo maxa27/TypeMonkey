@@ -13,30 +13,10 @@ const Main = () => {
   const [timerTime, setTimerTime] = useState(time);
   const [refreshKey, setRefreshKey] = useState(0);
   const [isStarted, setIsStarted] = useState(false);
+  const [isFinished, setIsFinished] = useState(false)
   const correctCharsRef = useRef(0);
   const totalChars = useRef(0);
   const { openPopup, closePopup } = usePopup();
-
-  // async function calculateTypingStats () {
-  //   if (time === 0) {
-  //     return {
-  //       wpm: 0.0,
-  //       rawWpm: 0.0,
-  //       accuracy: 0.0,
-  //     };
-  //   }
-
-  //   const wpm = parseFloat((correctCharsRef.current * 60) / (5 * time).toFixed(2));
-  //   const accuracy = parseFloat((correctCharsRef.current > 0 ? (correctCharsRef.current / totalChars.current) * 100 : 0.0).toFixed(2));
-    
-  //   const characters = `${totalChars.current}/${correctCharsRef.current}/${totalChars.current - correctCharsRef.current}`;
-
-  //   const response = await window.api.call("addRecord",[JSON.parse(localStorage.getItem("user")).id, wpm, accuracy, time, characters, language]);
-    
-  //   console.log(response.data);
-    
-  //   return response.data;
-  // }
 
   async function calculateTypingStats () {
     if (time === 0) {
@@ -100,8 +80,8 @@ const Main = () => {
   
   const refresh = () => {
     setRefreshKey((prev) => prev + 1);
-    setIsStarted(false);
     setTimerTime(time);
+    setIsStarted(false)
     correctCharsRef.current = 0;
     totalChars.current = 0;
   };
@@ -111,17 +91,22 @@ const Main = () => {
   const start = () => {
     if (!isStarted) {
       setIsStarted(true);
+      setIsFinished(false)
     }
   };
 
   const finish = async () => {
     const record = await calculateTypingStats()
+    setIsFinished(true)
+    setIsStarted(false)
     openPopup(
       <MainPagePopup
         onClose={() => {
           closePopup();
           refresh()
+          setIsFinished(false)
         }}
+        tryAgain={refresh}
         record={record}
       />
     );
@@ -151,7 +136,7 @@ const Main = () => {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
     };
-  }, []);
+  }, [time]);
 
   useEffect(() => {
     if (!isStarted) return;
@@ -178,7 +163,7 @@ const Main = () => {
         ) : (
           <div className="timer">{timerTime}</div>
         )}
-        <TypeArea key={refreshKey} start={start} finish={finish} language={language} correctCharsRef={correctCharsRef} totalChars={totalChars} />
+        <TypeArea key={`${language}-${refreshKey}`} start={start} isFinished={isFinished} language={language} correctCharsRef={correctCharsRef} totalChars={totalChars} />
         <div className="refresh" onClick={refresh}>
           <RefreshIcon />
         </div>

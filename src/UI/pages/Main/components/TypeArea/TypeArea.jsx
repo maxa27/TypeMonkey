@@ -9,6 +9,7 @@ export default function TypeArea({
   language,
   correctCharsRef,
   totalChars,
+  isFinished,
 }) {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [currentLetterIndex, setCurrentLetterIndex] = useState(0);
@@ -78,6 +79,8 @@ export default function TypeArea({
   };
 
   const handleKeyDown = (e) => {
+    if (isFinished) return
+
     const key = e.key;
     if (key === " " || key === "Enter") {
       const wordEl = document.querySelector(
@@ -192,6 +195,12 @@ export default function TypeArea({
   };
 
   useEffect(() => {
+    const loadJson = async () => {
+      const data = await import(`../../data/${language}/data.json`);
+      setJson(data.default);
+    };
+    loadJson();
+
     document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleKeyDown);
 
@@ -199,16 +208,7 @@ export default function TypeArea({
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, []);
-
-  useEffect(() => {
-    const loadJson = async () => {
-      const data = await import(`../../data/${language}/data.json`);
-      setJson(data.default);
-    };
-
-    loadJson();
-  }, [language]);
+  }, [isFinished]);
 
   useLayoutEffect(() => {
     if (!json) return;

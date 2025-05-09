@@ -9,6 +9,7 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const saved = localStorage.getItem("user");
+    console.log(JSON.parse(saved))
     saved ? setUser(JSON.parse(saved)) : navigate("/");
   }, []);
 
@@ -18,11 +19,13 @@ export const UserProvider = ({ children }) => {
       userData.password,
     ]);
     if (response.success) {
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ id: response.data.id, name: response.data.name })
-      );
-      setUser(userData);
+      const userObj = {
+        id: response.data.id,
+        name: response.data.name,
+        avatar: response.data.avatar,
+      };
+      localStorage.setItem("user", JSON.stringify(userObj));
+      setUser(userObj);
       navigate("/main");
     }
     return response.status;
@@ -37,11 +40,13 @@ export const UserProvider = ({ children }) => {
       Avatar,
     ]);
     if (response.success) {
-      localStorage.setItem(
-        "user",
-        JSON.stringify({ id: response.data.id, name: response.data.name })
-      );
-      setUser(userData);
+      const userObj = {
+        id: response.data.id,
+        name: response.data.name,
+        avatar: response.data.avatar,
+      };
+      localStorage.setItem("user", JSON.stringify(userObj));
+      setUser(userObj);
       navigate("/main");
     }
     return response.status;

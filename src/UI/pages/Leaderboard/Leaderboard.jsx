@@ -184,24 +184,6 @@ const Leaderboard = () => {
     }
   };
 
-  const handleRowClick = (record) => {
-    setPopup(
-      <div className="popup-user-info">
-        <h3>{record.name}</h3>
-        <img
-          src={record.avatar}
-          alt={record.name}
-          style={{ width: 100, borderRadius: "50%" }}
-        />
-        <p>WPM: {record.wpm}</p>
-        <p>Accuracy: {record.accuracy}%</p>
-        <p>Language: {record.lang.toUpperCase()}</p>
-        <p>Time: {record.time} sec</p>
-        <button onClick={closePopup}>Закрыть</button>
-      </div>
-    );
-  };
-
   return (
     <div className="leaderboard-page">
       <div className="leaderboard">
@@ -220,7 +202,6 @@ const Leaderboard = () => {
             records={userRecords}
             currentUserId={user.id}
             onDelete={handleDelete}
-            onClickRow={handleRowClick}
           />
         )}
       </div>
